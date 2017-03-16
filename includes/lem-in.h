@@ -35,19 +35,10 @@ typedef enum		e_infotype
 	CONNECTIONS = 2
 }					t_infotype;
 
-typedef struct 		s_all
-{
-	//general info such as start of linked lists number of total ants etc
-	int 			num_ants;
-	t_room			*rooms;
-	t_room 			*start;
-	t_room 			*end;
-}					t_all;
-
 typedef struct		s_connection
 {
-	struct s_connectin	*next;
-	t_room 				*room;
+	struct s_connection	*next;
+	struct s_room 		*room;
 }					t_connection;
 
 typedef struct		s_room
@@ -63,6 +54,15 @@ typedef struct		s_room
 	t_connection	*connections;
 }					t_room;
 
+typedef struct 		s_all
+{
+	//general info such as start of linked lists number of total ants etc
+	int 			num_ants;
+	t_room			*rooms;
+	t_room 			*start;
+	t_room 			*end;
+}					t_all;
+
 /*
 ** prototypes
 */
@@ -76,7 +76,7 @@ void	throw_error(int reason);
 ** output.c
 */
 
-void	print_connections(t_connections *connections);
+void	print_connections(t_connection *connections);
 void	print_rooms(t_room	*start);
 
 /*

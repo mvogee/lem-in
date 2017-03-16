@@ -50,7 +50,7 @@ void		get_num_ants(char *line, int *num_ants, int *info_type)
 	if (!ft_isnum(line))
 		throw_error(NO_ANTS);
 	*num_ants = ft_atoi(line);
-	*info_type++;
+	*info_type += 1;
 }
 
 
@@ -93,7 +93,7 @@ t_room		*start_end_room(char *line, t_room **rooms)
 {
 	char		**input;
 	t_room		*new_room;
-	int 		sart_end;
+	int 		start_end;
 
 	start_end = (ft_strequ(line, "##start") ? 1 : -1);
 	free(line);
@@ -136,7 +136,7 @@ void		parse_rooms(char *line, t_room **rooms, int *info_type)
 {
 	char		**input;
 	t_room		*new_room;
-	int 		sart_end;
+	int 		start_end;
 
 	start_end = 0;
 	if (count_char(line, ' ') == 2 || ft_strequ(line, "##start") || ft_strequ(line, "##end"))
@@ -152,10 +152,9 @@ void		parse_rooms(char *line, t_room **rooms, int *info_type)
 			add_room(new_room, rooms);
 	}
 	else if (count_char(line, '-') == 1)
-		*info_type++;
+		*info_type += 1;
 	else
 		throw_error(GENERAL);
-	return (new_room);
 }
 //_____________________ parse_rooms _________________ ^^
 
@@ -214,9 +213,9 @@ void		parse_connection(char *line, t_room **rooms)
 
 	if (count_char(line, '-') != 1)
 		throw_error(GENERAL);
-	ids = ft_strplit(line, '-');
-	check_valid_name(ids[0]);
-	check_valid_name(ids[1]);
+	ids = ft_strsplit(line, '-');
+	check_valid_name(rooms ,ids[0]);
+	check_valid_name(rooms ,ids[1]);
 	add_connection(rooms, ids[0], ids[1]);
 	add_connection(rooms, ids[1], ids[0]);
 }
@@ -231,11 +230,13 @@ t_room		*parse_information(int *num_ants)
 
 	info_type = NUM_ANTS;
 	line = NULL;
-	while (get_next_line(STDIN_FILENO, &line) > 0)
+	rooms = NULL;
+	while (get_next_line(STDIN_FILENO, &line) > 0 && line)
 	{
+		ft_printf("infotype: %d\n", info_type);
 		if (line[0] == '#' && (!ft_strequ(line, "##start") || !ft_strequ(line, "##end")))
 		{
-			ft_printf("%s\n", line);
+			ft_printf("%s\n", line); // nessesary?
 			continue ;
 		}
 		if (info_type == ROOMS)
@@ -246,7 +247,6 @@ t_room		*parse_information(int *num_ants)
 			get_num_ants(line, num_ants, &info_type);
 		free(line);
 	}
-	// test here 
 	if (!rooms)
 		throw_error(NO_ROOMS);
 	return (rooms);

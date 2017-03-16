@@ -12,12 +12,12 @@
 
 #include "lem-in.h"
 
-void	print_connections(t_connections *connections)
+void	print_connections(t_connection *connections)
 {
-	t_connections *tmp;
+	t_connection *tmp;
 
 	tmp = connections;
-	ft_printf("connections: ")
+	ft_printf("connections: ");
 	while (tmp)
 	{
 		ft_printf("%s, ", tmp->room->id);
@@ -26,11 +26,13 @@ void	print_connections(t_connections *connections)
 	ft_printf("\n");
 }
 
-void	print_rooms(t_room	*start)
+void	print_rooms(t_room	*rooms)
 {
-	t_room		*tmp
+	t_room		*tmp;
 
-	tmp = start;
+	tmp = rooms;
+	if (!rooms)
+		return ;
 	while (tmp)
 	{
 		ft_printf("id: %s\n", tmp->id);
