@@ -44,6 +44,20 @@ int		get_potential_paths(t_all **all, char *end_id) // max paths is number of st
 	return (total_paths);
 }
 
+void	reset_path_checked(t_room **start)
+{
+	t_connection	*tmp_con;
+	t_room			*tmp_room;
+
+	tmp_con = (*start)->connections;
+	while (tmp_con)
+	{
+		tmp_room = tmp_con->room;
+		tmp_room->path_checked = 0;
+		tmp_con = tmp_con->next;
+	}
+}
+
 void	find_paths(t_all **all)
 {
 	//how ever many connections come out of start and connect to end is how many paths we can have
@@ -54,7 +68,7 @@ void	find_paths(t_all **all)
 
 	(*all)->num_paths = get_potential_paths(all, (*all)->end->id); // make this funtion
 	reset_visited(&(*all)->rooms);
-//	reset_path_checked(&(*all)->rooms)
+	reset_path_checked(&(*all)->start);
 	ft_printf("num paths: %d\n", (*all)->num_paths);
 //	(*all)->all_paths = get_unique_paths(all); // make this. finds all unique paths
 }

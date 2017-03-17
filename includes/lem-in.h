@@ -126,8 +126,9 @@ t_room			*parse_information(int *num_ants);
 ** find_paths.c
 */
 
-void	find_paths(t_all **all);
 int		get_potential_paths(t_all **all, char *end_id);
+void	reset_path_checked(t_room **start);
+void	find_paths(t_all **all);
 
 
 #endif
