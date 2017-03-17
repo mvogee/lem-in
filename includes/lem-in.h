@@ -52,6 +52,7 @@ typedef struct		s_room
 	int				is_end;
 	int				num_ants;
 	t_connection	*connections;
+	int				visited;
 }					t_room;
 
 typedef struct 		s_all
@@ -72,6 +73,8 @@ typedef struct 		s_all
 */
 void	throw_error(int reason);
 t_room	*find_start(t_room *rooms);
+int		check_reachable(t_room **start, char *end_id);
+void	reset_visited(t_room **rooms);
 t_room	*find_end(t_room *rooms);
 
 /*
