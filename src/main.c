@@ -91,7 +91,8 @@ void	reset_visited(t_room **rooms)
 	tmp = *rooms;
 	while (tmp)
 	{
-		tmp->visited = 0;
+		if (tmp->visited == 1)
+			tmp->visited = 0;
 		tmp = tmp->next;
 	}
 }

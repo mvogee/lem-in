@@ -58,6 +58,51 @@ void	reset_path_checked(t_room **start)
 	}
 }
 
+// t_all_paths		*find_all_paths(t_all **all)
+// {
+// 	t_connection	*tmp_con;
+// 	t_room			*tmp_room;
+// 	t_all_paths		*all_paths;
+// 	t_path			*new_path;
+
+// 	paths = (t_all_paths*)ft_memalloc(sizeof(t_all_paths));
+// 	tmp_con = (*all)->start->connections;
+// 	new_path = find_best_path(all); // make this. needs to check every possible path and pick the best one
+
+// 	while (tmp_con)
+// 	{
+// 		tmp_room = tmp_con->room;
+// 		if (tmp_room->pathable == 1)
+// 		{
+// 			new_path = create_new_path(paths, tmp_room); // make this. will recursively build 
+// 			mark_path(new_path); // mark the path nodes as visited and assign to_end value based on total_len - count
+// 		// depth search every single path possible from tmp_room and only keep the shortest path.
+// 		// do depth search for each child of start
+// 		// take the best shortest path and mark the nodes perma visited as well as distance to end
+// 			add_to_all_paths(&all_paths, &new_path);
+// 			// add the new path to the 
+// 		}
+// 		tmp_con = tmp_con->next;
+// 	}
+// }
+void	set_node_distance(t_room **room, int distance)
+{
+	t_connection	*tmp_con;
+	t_room			*tmp_room;
+
+	tmp_con = (*room)->connections;
+	if (distance < (*room)->to_end)
+		(*room)->to_end = distance;
+	while (tmp_con)
+	{
+		tmp_room = tmp_con->room;
+		if (tmp_room->to_end > distance + 1)
+			set_node_distance(&tmp_room, distance + 1);
+		tmp_con = tmp_con->next;
+	}
+	return ;
+}
+
 void	find_paths(t_all **all)
 {
 	//how ever many connections come out of start and connect to end is how many paths we can have
@@ -70,5 +115,7 @@ void	find_paths(t_all **all)
 	reset_visited(&(*all)->rooms);
 	reset_path_checked(&(*all)->start);
 	ft_printf("num paths: %d\n", (*all)->num_paths);
-//	(*all)->all_paths = get_unique_paths(all); // make this. finds all unique paths
+	set_node_distance(&(*all)->end, 0); // make this. from end assing each node a distance
+	print_distances(all);
+	//(*all)->all_paths = find_all_paths(all); // make this. finds all possible paths
 }

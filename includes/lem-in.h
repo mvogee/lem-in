@@ -52,9 +52,10 @@ typedef struct		s_room
 	int				is_end;
 	int				num_ants;
 	t_connection	*connections;
-	int				visited;
+	int				visited; // 1 will reset val 2 is permanant visited
 	int				path_checked;
 	int				pathable;
+	int				to_end; // this will be set for fastest path
 }					t_room;
 
 typedef struct 		s_path
@@ -68,6 +69,7 @@ typedef struct 		s_path
 typedef struct		s_all_paths
 {
 	struct s_all_paths	*next;
+	int					fastest;
 	t_path				*path;
 }					t_all_paths;
 
@@ -80,6 +82,7 @@ typedef struct 		s_all
 	t_room			*end;
 	int				num_paths;
 	t_all_paths		*all_paths;
+	t_path			*fastest;
 }					t_all;
 
 /*
@@ -99,6 +102,7 @@ t_room	*find_end(t_room *rooms);
 ** output.c
 */
 
+void	print_distances(t_all **all);
 void	print_connections(t_connection *connections);
 void	print_rooms(t_room	*start);
 

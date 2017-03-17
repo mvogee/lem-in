@@ -86,6 +86,7 @@ t_room		*make_room(char *id, int x_coord, int y_coord, int start_end)
 	new_room->num_ants = 0;
 	new_room->next = NULL;
 	new_room->connections = NULL;
+	new_room->to_end = INT_MAX;
 	return (new_room);
 }
 

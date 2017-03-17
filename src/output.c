@@ -12,6 +12,18 @@
 
 #include "lem-in.h"
 
+void	print_distances(t_all **all)
+{
+	t_room		*tmp;
+
+	tmp = (*all)->rooms;
+	while (tmp)
+	{
+		ft_printf("score room %s: %d\n", tmp->id, tmp->to_end);
+		tmp = tmp->next;
+	}
+}
+
 void	print_connections(t_connection *connections)
 {
 	t_connection *tmp;
