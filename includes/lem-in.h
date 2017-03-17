@@ -41,6 +41,14 @@ typedef struct		s_connection
 	struct s_room 		*room;
 }					t_connection;
 
+typedef struct 		s_ants
+{
+	struct s_ants	*next;
+	int 			moved;
+	int				id;
+	struct s_room	*room;
+}					t_ants;
+
 typedef struct		s_room
 {
 	// all the stuff each individual room needs
@@ -51,6 +59,7 @@ typedef struct		s_room
 	int				is_start;
 	int				is_end;
 	int				num_ants;
+	t_ants			*ants;
 	t_connection	*connections;
 	int				visited; // 1 will reset val 2 is permanant visited
 	int				path_checked;
@@ -58,20 +67,20 @@ typedef struct		s_room
 	int				to_end; // this will be set for fastest path
 }					t_room;
 
-typedef struct 		s_path
-{
-	t_room			*start;
-	t_room			*end;
-	struct s_path	*next;
-	int				length;
-}					t_path;
+// typedef struct 		s_path
+// {
+// 	t_room			*start;
+// 	t_room			*end;
+// 	struct s_path	*next;
+// 	int				length;
+// }					t_path;
 
-typedef struct		s_all_paths
-{
-	struct s_all_paths	*next;
-	int					fastest;
-	t_path				*path;
-}					t_all_paths;
+// typedef struct		s_all_paths
+// {
+// 	struct s_all_paths	*next;
+// 	int					fastest;
+// 	t_path				*path;
+// }					t_all_paths;
 
 typedef struct 		s_all
 {
@@ -81,8 +90,9 @@ typedef struct 		s_all
 	t_room			*start;
 	t_room			*end;
 	int				num_paths;
-	t_all_paths		*all_paths;
-	t_path			*fastest;
+	t_ants			*ants;
+	// t_all_paths		*all_paths;
+	// t_path			*fastest;
 }					t_all;
 
 /*
@@ -102,6 +112,7 @@ t_room	*find_end(t_room *rooms);
 ** output.c
 */
 
+void	print_ants(t_ants *ants);
 void	print_distances(t_all **all);
 void	print_connections(t_connection *connections);
 void	print_rooms(t_room	*start);
@@ -132,6 +143,10 @@ t_room			*parse_information(int *num_ants);
 
 int		get_potential_paths(t_all **all, char *end_id);
 void	reset_path_checked(t_room **start);
+
+t_ants	*create_new_ant(int id, t_room **start);
+void	add_new_ant(t_ants **ants, t_ants *new_ant);
+void	create_ants(t_all **all);
 void	find_paths(t_all **all);
 
 

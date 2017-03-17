@@ -12,6 +12,18 @@
 
 #include "lem-in.h"
 
+void	print_ants(t_ants *ants)
+{
+	t_ants	*tmp;
+
+	tmp = ants;
+	while (tmp)
+	{
+		ft_printf("ant id: %d in room: %s\n", tmp->id, tmp->room->id);
+		tmp = tmp->next;
+	}
+}
+
 void	print_distances(t_all **all)
 {
 	t_room		*tmp;
