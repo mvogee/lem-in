@@ -31,6 +31,36 @@ void	throw_error(int reason)
 	exit(EXIT_FAILURE);
 }
 
+t_room	*find_start(t_room *rooms)
+{
+	t_room	*start;
+
+	start = rooms;
+	while (start)
+	{
+		if (start->is_start == 1)
+			return (start);
+		start = start->next;
+	}
+	throw_error(NO_START);
+	return (NULL);
+}
+
+t_room	*find_end(t_room *rooms)
+{
+	t_room *end;
+
+	end = rooms;
+	while (end)
+	{
+		if (end->is_end == 1)
+			return (end);
+		end = end->next;
+	}
+	throw_error(NO_END);
+	return (NULL);
+}
+
 int		main(void)
 {
 	t_all	*all;
@@ -38,8 +68,10 @@ int		main(void)
 	all = (t_all*)ft_memalloc(sizeof(t_all));
 	all->rooms = parse_information(&all->num_ants); // done
 	print_rooms(all->rooms);
-	// all->start = find_start(all->rooms); // make this
-	// all->end = find_end(all->rooms); // make this
+	all->start = find_start(all->rooms); // make this
+	ft_printf("start id: %s\n", all->start->id);
+	all->end = find_end(all->rooms); // make this
+	ft_printf("end id: %s\n", all->end->id);
 	if (all->num_ants <= 0)
 		throw_error(NO_ANTS);
 	// all->start->num_ants = all->num_ants; // adds ants to start

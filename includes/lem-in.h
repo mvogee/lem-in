@@ -71,6 +71,8 @@ typedef struct 		s_all
 ** main.c
 */
 void	throw_error(int reason);
+t_room	*find_start(t_room *rooms);
+t_room	*find_end(t_room *rooms);
 
 /*
 ** output.c
