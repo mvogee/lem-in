@@ -40,8 +40,8 @@ int		main(void)
 	print_rooms(all->rooms);
 	// all->start = find_start(all->rooms); // make this
 	// all->end = find_end(all->rooms); // make this
-	// if (all->num_ants <= 0)
-	// 	throw_error(NO_ANTS);
+	if (all->num_ants <= 0)
+		throw_error(NO_ANTS);
 	// all->start->num_ants = all->num_ants; // adds ants to start
 	// check_reachable(all->start, all->end); // make this
 	// find_paths(); // find paths to start and do algorithms stuff

@@ -38,7 +38,8 @@ void	print_rooms(t_room	*rooms)
 		ft_printf("id: %s\n", tmp->id);
 		ft_printf("is_start: %d\nis_end: %d\n", tmp->is_start, tmp->is_end);
 		print_connections(tmp->connections);
-		ft_printf("\n\n");
+		ft_printf("\n");
 		tmp = tmp->next;
 	}
+	ft_printf("\n\n");
 }
