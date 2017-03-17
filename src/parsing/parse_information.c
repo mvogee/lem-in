@@ -236,10 +236,9 @@ t_room		*parse_information(int *num_ants)
 	rooms = NULL;
 	while (get_next_line(STDIN_FILENO, &line) > 0 && line)
 	{
-		ft_printf("infotype: %d\n", info_type);
 		if ((line[0] == '#' && !ft_strequ(line, "##start") && !ft_strequ(line, "##end")) || line[0] == '\0')
 		{
-			ft_printf("%s\n", line); // nessesary?
+			(line[0] == '\0' ? throw_error(GENERAL) : ft_printf("%s\n", line)); // nessesary?
 			continue ;
 		}
 		if (info_type == ROOMS)

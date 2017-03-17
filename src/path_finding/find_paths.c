@@ -106,7 +106,7 @@ int		get_max_start_dist(t_room *start)
 	while (tmp_con)
 	{
 		tmp_room = tmp_con->room;
-		if (tmp_room->to_end > largest)
+		if (tmp_room->to_end > largest && tmp_room->pathable)
 			largest = tmp_room->to_end;
 		tmp_con = tmp_con->next;
 	}
@@ -115,6 +115,17 @@ int		get_max_start_dist(t_room *start)
 
 
 //_________________ants vv __________________
+void	*reset_moved(t_ants **ants)
+{
+	t_ants	*tmp;
+
+	tmp = *ants;
+	while (tmp)
+	{
+		tmp->moves = 0;
+		tmp = tmp->next;
+	}
+}
 
 t_ants	*create_new_ant(int id, t_room **start)
 {
@@ -159,27 +170,58 @@ void	create_ants(t_all **all)
 
 //____________ants ^^___________________
 
+void	move_ant(t_ants **ant) // in progress
+{
+	t_room	*tmp_room;
+	t_room	*check;
+	t_connection *tmp_con;
+
+	tmp_room = (*ant)->room;
+	tmp_con = tmp_room->connections;
+	while (tmp_con)
+	{
+		check = tmp_con->room;
+	}
+}
+
+void	start_movement(t_all, **all)
+{
+	t_ants	*tmp_ants;
+
+	while ((*all)->end->num_ants < (*all)->num_ants)
+	{
+		tmp_ants = (*all)->ants;
+		while (tmp_ants)
+		{
+			tmp_ants = get_closest_ant((*all)->ants);// make this. finds the closest ant that has not already been moved. returns null if all have been moved
+			if (!tmp_ants)
+				break ;
+			move_ant(&tmp_ants); // make this
+			if (tmp_ants->room->is_end)
+			{
+				(*all)->end->num_ants += 1;
+				remove_ant(&(*all)->ants, tmp_ants->id); // make this.
+			}
+			else
+				tmp_ants->moved = 1;
+		}
+		reset_moved((*all)->ants);
+	}
+}
+
 void	find_paths(t_all **all)
 {
-	//how ever many connections come out of start and connect to end is how many paths we can have
-	// in order for a path to be valid it needs to at the point of end or joining a main path have less moves to end than it did at start;
-	// first find how many of the start children can reach end;
-	// get the best path.
-	// rate paths. only save a path if by the time it joins best path it is shorter distance to end than start
-
-	// instead of predefining paths we have distances. alwasy every turn move ants close to the end
-	// start from the end. move though nodes looking for occupied node keeping track of the previous node for printing
-	// once an ant is found check if it can move forward
 	(*all)->num_paths = get_potential_paths(all, (*all)->end->id); // make this funtion
 	reset_visited(&(*all)->rooms);
 	reset_path_checked(&(*all)->start);
 	ft_printf("num paths: %d\n", (*all)->num_paths);
 	set_node_distance(&(*all)->end, 0); //from end assing each node a distance
+	(*all)->start->to_end += (*all)->num_ants;
 	print_distances(all);
 	create_ants(all);
 	print_ants((*all)->ants);
 //	get_paths(all);// make this. finds paths to use.
-//	move_ants(all,  get_max_start_dist((*all)->start), (*all)->start->to_end - 1); // make this. moves ants
+	start_movement(all); // make this. moves ants
 }
 
 // t_all_paths		*find_all_paths(t_all **all)
