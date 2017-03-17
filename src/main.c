@@ -114,5 +114,8 @@ int		main(void)
 	if (!(check_reachable(&all->start, all->end->id))) // make this
 		throw_error(NO_VALID_PATH);
 	reset_visited(&all->rooms);
-	// find_paths(); // find paths to start and do algorithms stuff
+	find_paths(&all); // find paths to start and do algorithms stuff
+//	move_ants(&all); // make this. moves ants and outputs moves
+
+	//free_lists(&all);
 }

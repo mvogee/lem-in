@@ -188,6 +188,7 @@ void		add_connection(t_room **rooms, char *home, char *room2)
 	t_room	*tmp2;
 	t_connection	*new_connection;
 	t_connection	**connections;
+	t_connection	*tmp_con;
 
 	tmp_home = *rooms;
 	tmp2 = *rooms;
@@ -196,14 +197,15 @@ void		add_connection(t_room **rooms, char *home, char *room2)
 	while (!ft_strequ(tmp2->id, room2))
 		tmp2 = tmp2->next;
 	connections = &tmp_home->connections;
+	tmp_con = *connections;
 	new_connection = make_connection(tmp2);
 	if (!(*connections))
 		*connections = new_connection;
 	else
 	{
-		while ((*connections)->next)
-			(*connections) = (*connections)->next;
-		(*connections)->next = new_connection;
+		while (tmp_con->next)
+			tmp_con = tmp_con->next;
+		tmp_con->next = new_connection;
 	}
 }
 
@@ -234,7 +236,7 @@ t_room		*parse_information(int *num_ants)
 	while (get_next_line(STDIN_FILENO, &line) > 0 && line)
 	{
 		ft_printf("infotype: %d\n", info_type);
-		if (line[0] == '#' && !ft_strequ(line, "##start") && !ft_strequ(line, "##end"))
+		if ((line[0] == '#' && !ft_strequ(line, "##start") && !ft_strequ(line, "##end")) || line[0] == '\0')
 		{
 			ft_printf("%s\n", line); // nessesary?
 			continue ;

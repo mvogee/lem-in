@@ -53,15 +53,33 @@ typedef struct		s_room
 	int				num_ants;
 	t_connection	*connections;
 	int				visited;
+	int				path_checked;
+	int				pathable;
 }					t_room;
+
+typedef struct 		s_path
+{
+	t_room			*start;
+	t_room			*end;
+	struct s_path	*next;
+	int				length;
+}					t_path;
+
+typedef struct		s_all_paths
+{
+	struct s_all_paths	*next;
+	t_path				*path;
+}					t_all_paths;
 
 typedef struct 		s_all
 {
 	//general info such as start of linked lists number of total ants etc
-	int 			num_ants;
+	int				num_ants;
 	t_room			*rooms;
-	t_room 			*start;
-	t_room 			*end;
+	t_room			*start;
+	t_room			*end;
+	int				num_paths;
+	t_all_paths		*all_paths;
 }					t_all;
 
 /*
@@ -103,6 +121,13 @@ void			add_connection(t_room **rooms, char *home, char *room2);
 void			parse_connection(char *line, t_room **rooms);
 
 t_room			*parse_information(int *num_ants);
+
+/*
+** find_paths.c
+*/
+
+void	find_paths(t_all **all);
+int		get_potential_paths(t_all **all, char *end_id);
 
 
 #endif
