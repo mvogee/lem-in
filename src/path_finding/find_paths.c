@@ -77,24 +77,6 @@ void	set_node_distance(t_room **room, int distance)
 	return ;
 }
 
-// void	get_paths(t_all **all, int longest_dist, int shortest_dist)
-// {
-// 	t_room			*tmp_room;
-// 	t_connection	*tmp_con;
-// 	t_path			*new_path;
-
-// 	tmp_con = (*all)->start->connections;
-// 	while (tmp_con)
-// 	{
-// 		tmp_room = tmp_con->room;
-// 		if (!tmp_room->pathable || tmp_room->to_end > shortest_dist)
-// 		{
-// 			tmp_con = tmp_con->next;
-// 			continue ;
-// 		}
-// 	}
-// }
-
 int		get_max_start_dist(t_room *start)
 {
 	t_connection	*tmp_con;
@@ -115,15 +97,34 @@ int		get_max_start_dist(t_room *start)
 
 
 //_________________ants vv __________________
-void	*reset_moved(t_ants **ants)
+void	reset_moved(t_ants **ants)
 {
 	t_ants	*tmp;
 
 	tmp = *ants;
 	while (tmp)
 	{
-		tmp->moves = 0;
+		tmp->moved = 0;
 		tmp = tmp->next;
+	}
+}
+
+void	add_visited_room(t_visited **visited, t_room **room)
+{
+	t_visited 	*tmp_visited;
+	t_visited	*new_visited;
+
+	new_visited = (t_visited*)ft_memalloc(sizeof(t_visited));
+	new_visited->next = NULL;
+	new_visited->room = *room;
+	if (!(*visited))
+		*visited = new_visited;
+	else
+	{
+		tmp_visited = *visited;
+		while (tmp_visited->next)
+			tmp_visited = tmp_visited->next;
+		tmp_visited->next = new_visited;
 	}
 }
 
@@ -138,6 +139,7 @@ t_ants	*create_new_ant(int id, t_room **start)
 	new_ant->next = NULL;
 	new_ant->room = *start;
 	new_ant->moved = 0;
+	add_visited_room(&new_ant->visited, start);
 	return (new_ant);
 }
 
@@ -170,44 +172,136 @@ void	create_ants(t_all **all)
 
 //____________ants ^^___________________
 
-void	move_ant(t_ants **ant) // in progress
-{
-	t_room	*tmp_room;
-	t_room	*check;
-	t_connection *tmp_con;
+//__________movement vv________________
 
-	tmp_room = (*ant)->room;
-	tmp_con = tmp_room->connections;
-	while (tmp_con)
+int		not_visited(t_visited *visited_rooms, t_room *room_to_check)
+{
+	t_visited	*tmp_visited;
+
+	tmp_visited = visited_rooms;
+	while (tmp_visited)
+	{
+		if (ft_strequ(tmp_visited->room->id, room_to_check->id))
+			return (0);
+		tmp_visited = tmp_visited->next;
+	}
+	return (1);
+}
+
+void	move_ant(t_ants **ant, t_room **moveto)
+{
+	(*ant)->room->num_ants -= 1;
+	(*moveto)->num_ants += 1;
+	ft_printf("L%d-%s ", (*ant)->id, (*moveto)->id);
+	(*ant)->room = *moveto;
+}
+
+void	find_move(t_ants **ant)
+{
+	t_room	*cur_room; // the room the ant is currently in
+	t_room	*best; // current best room to move to
+	t_room	*check; // the room the ant might move to
+	t_connection *tmp_con; // the connections to the room the ant is in
+
+	cur_room = (*ant)->room;
+	best = cur_room;
+	tmp_con = cur_room->connections;
+	while (tmp_con) // look for the best unocupied room
 	{
 		check = tmp_con->room;
+		if (check->num_ants == 0 && check->to_end <= best->to_end && not_visited((*ant)->visited, check))
+		{
+			if ((cur_room->is_start && check->pathable) || !cur_room->is_start)
+				best = check;
+		}
+		if (check->is_end)
+		{
+			best = check;
+			break ;
+		}
+		tmp_con = tmp_con->next;
+	}
+	if (!ft_strequ(best->id, cur_room->id))
+	{
+		add_visited_room(&(*ant)->visited, &cur_room);
+		move_ant(ant, &best);
 	}
 }
 
-void	start_movement(t_all, **all)
+t_ants	*get_closest_ant(t_ants **ants)
+{
+	t_ants		*closest;
+	t_ants		*tmp_ants;
+
+	tmp_ants = *ants;
+	closest = NULL;
+	while (tmp_ants)
+	{
+		if (!tmp_ants->moved)
+		{
+			if (closest == NULL)
+				closest = tmp_ants;
+			else if(tmp_ants->room->to_end < closest->room->to_end)
+				closest = tmp_ants;
+		}
+		tmp_ants = tmp_ants->next;
+	}
+	return (closest);
+}
+
+t_ants	*remove_ant(t_ants **ants, t_ants *done_ant)
+{
+	t_ants	*head;
+	t_ants	*tmp_ants;
+	t_ants	*prev;
+
+	head = *ants;
+	if (head->id == done_ant->id)
+	{
+		head = head->next;
+		free(done_ant);
+		return (head);
+	}
+	tmp_ants = head->next;
+	prev = head;
+	while (tmp_ants)
+	{
+		if (tmp_ants->id == done_ant->id)
+		{
+			prev->next = done_ant->next;
+			free(done_ant);
+			return (head);
+		}
+		prev = tmp_ants;
+		tmp_ants = tmp_ants->next;
+	}
+	return (head);
+}
+
+void	start_movement(t_all **all)
 {
 	t_ants	*tmp_ants;
 
-	while ((*all)->end->num_ants < (*all)->num_ants)
+	while ((*all)->end->num_ants < (*all)->num_ants && (*all)->ants)
 	{
-		tmp_ants = (*all)->ants;
+		tmp_ants = (*all)->ants; // sets ants back to the head ant node
 		while (tmp_ants)
 		{
-			tmp_ants = get_closest_ant((*all)->ants);// make this. finds the closest ant that has not already been moved. returns null if all have been moved
+			tmp_ants = get_closest_ant(&(*all)->ants); //returns null if all have been moved
 			if (!tmp_ants)
 				break ;
-			move_ant(&tmp_ants); // make this
+			find_move(&tmp_ants); // make this
 			if (tmp_ants->room->is_end)
-			{
-				(*all)->end->num_ants += 1;
-				remove_ant(&(*all)->ants, tmp_ants->id); // make this.
-			}
+				(*all)->ants = remove_ant(&(*all)->ants, tmp_ants);
 			else
 				tmp_ants->moved = 1;
 		}
-		reset_moved((*all)->ants);
+		reset_moved(&(*all)->ants);
+		ft_printf("%d\n", (*all)->end->num_ants);
 	}
 }
+
+// __________movement ^^ _______________
 
 void	find_paths(t_all **all)
 {
@@ -220,34 +314,5 @@ void	find_paths(t_all **all)
 	print_distances(all);
 	create_ants(all);
 	print_ants((*all)->ants);
-//	get_paths(all);// make this. finds paths to use.
 	start_movement(all); // make this. moves ants
 }
-
-// t_all_paths		*find_all_paths(t_all **all)
-// {
-// 	t_connection	*tmp_con;
-// 	t_room			*tmp_room;
-// 	t_all_paths		*all_paths;
-// 	t_path			*new_path;
-
-// 	paths = (t_all_paths*)ft_memalloc(sizeof(t_all_paths));
-// 	tmp_con = (*all)->start->connections;
-// 	new_path = find_best_path(all); // make this. needs to check every possible path and pick the best one
-
-// 	while (tmp_con)
-// 	{
-// 		tmp_room = tmp_con->room;
-// 		if (tmp_room->pathable == 1)
-// 		{
-// 			new_path = create_new_path(paths, tmp_room); // make this. will recursively build 
-// 			mark_path(new_path); // mark the path nodes as visited and assign to_end value based on total_len - count
-// 		// depth search every single path possible from tmp_room and only keep the shortest path.
-// 		// do depth search for each child of start
-// 		// take the best shortest path and mark the nodes perma visited as well as distance to end
-// 			add_to_all_paths(&all_paths, &new_path);
-// 			// add the new path to the 
-// 		}
-// 		tmp_con = tmp_con->next;
-// 	}
-// }

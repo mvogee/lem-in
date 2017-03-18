@@ -41,17 +41,23 @@ typedef struct		s_connection
 	struct s_room 		*room;
 }					t_connection;
 
+typedef struct 		s_visited
+{
+	struct s_visited	*next;
+	struct s_room		*room;
+}					t_visited;
+
 typedef struct 		s_ants
 {
 	struct s_ants	*next;
 	int 			moved;
 	int				id;
 	struct s_room	*room;
+	t_visited		*visited;
 }					t_ants;
 
 typedef struct		s_room
 {
-	// all the stuff each individual room needs
 	struct s_room	*next;
 	char			*id;
 	int				x_coord;
@@ -59,7 +65,6 @@ typedef struct		s_room
 	int				is_start;
 	int				is_end;
 	int				num_ants;
-	t_ants			*ants;
 	t_connection	*connections;
 	int				visited; // 1 will reset val 2 is permanant visited
 	int				path_checked;
@@ -67,20 +72,6 @@ typedef struct		s_room
 	int				to_end; // this will be set for fastest path
 }					t_room;
 
-// typedef struct 		s_path
-// {
-// 	t_room			*start;
-// 	t_room			*end;
-// 	struct s_path	*next;
-// 	int				length;
-// }					t_path;
-
-// typedef struct		s_all_paths
-// {
-// 	struct s_all_paths	*next;
-// 	int					fastest;
-// 	t_path				*path;
-// }					t_all_paths;
 
 typedef struct 		s_all
 {
@@ -91,8 +82,6 @@ typedef struct 		s_all
 	t_room			*end;
 	int				num_paths;
 	t_ants			*ants;
-	// t_all_paths		*all_paths;
-	// t_path			*fastest;
 }					t_all;
 
 /*
@@ -143,10 +132,22 @@ t_room			*parse_information(int *num_ants);
 
 int		get_potential_paths(t_all **all, char *end_id);
 void	reset_path_checked(t_room **start);
+void	set_node_distance(t_room **room, int distance);
+int		get_max_start_dist(t_room *start);
 
+void	reset_moved(t_ants **ants);
+void	add_visited_room(t_visited **visited, t_room **room);
 t_ants	*create_new_ant(int id, t_room **start);
 void	add_new_ant(t_ants **ants, t_ants *new_ant);
 void	create_ants(t_all **all);
+
+int		not_visited(t_visited *visited_rooms, t_room *room_to_check);
+void	move_ant(t_ants **ant, t_room **moveto);
+void	find_move(t_ants **ant);
+t_ants	*get_closest_ant(t_ants **ants);
+t_ants	*remove_ant(t_ants **ants, t_ants *done_ant);
+void	start_movement(t_all **all);
+
 void	find_paths(t_all **all);
 
 
