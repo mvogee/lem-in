@@ -12,7 +12,7 @@
 
 #include "lem-in.h"
 
-int		get_potential_paths(t_all **all, char *end_id) // max paths is number of start children nodes
+int		get_potential_paths(t_all **all, char *end_id)
 {
 	t_connection	*tmp_con;
 	t_room			*tmp_room;
@@ -195,26 +195,23 @@ void	move_ant(t_ants **ant, t_room **moveto)
 
 void	find_move(t_ants **ant)
 {
-	t_room	*cur_room; // the room the ant is currently in
-	t_room	*best; // current best room to move to
-	t_room	*check; // the room the ant might move to
-	t_connection *tmp_con; // the connections to the room the ant is in
+	t_room	*cur_room;
+	t_room	*best;
+	t_room	*check;
+	t_connection *tmp_con;
 
 	cur_room = (*ant)->room;
 	best = cur_room;
 	tmp_con = cur_room->connections;
-	while (tmp_con) // look for the best unocupied room
+	while (tmp_con)
 	{
 		check = tmp_con->room;
-		if (check->num_ants == 0 && check->to_end <= best->to_end && not_visited((*ant)->visited, check))
+		if ((check->num_ants == 0 && check->to_end <= best->to_end &&
+			not_visited((*ant)->visited, check)) || check->is_end)
 		{
-			if ((cur_room->is_start && check->pathable) || !cur_room->is_start)
+			if ((cur_room->is_start && check->pathable) ||
+				!cur_room->is_start || check->is_end)
 				best = check;
-		}
-		if (check->is_end)
-		{
-			best = check;
-			break ;
 		}
 		tmp_con = tmp_con->next;
 	}
@@ -278,16 +275,16 @@ t_ants	*remove_ant(t_ants **ants, t_ants *done_ant)
 void	start_movement(t_all **all)
 {
 	t_ants	*tmp_ants;
-ft_printf("\e[32m________moving ants__________\n\e[00m");
+	ft_printf("\e[32m________moving ants__________\n\e[00m");
 	while ((*all)->end->num_ants < (*all)->num_ants && (*all)->ants)
 	{
-		tmp_ants = (*all)->ants; // sets ants back to the head ant node
+		tmp_ants = (*all)->ants;
 		while (tmp_ants)
 		{
-			tmp_ants = get_closest_ant(&(*all)->ants); //returns null if all have been moved
+			tmp_ants = get_closest_ant(&(*all)->ants);
 			if (!tmp_ants)
 				break ;
-			find_move(&tmp_ants); // make this
+			find_move(&tmp_ants);
 			if (tmp_ants->room->is_end)
 			{
 				free_visited(&tmp_ants->visited);
@@ -306,11 +303,11 @@ ft_printf("\e[32m________moving ants__________\n\e[00m");
 
 void	find_paths(t_all **all)
 {
-	(*all)->num_paths = get_potential_paths(all, (*all)->end->id); // make this funtion
+	(*all)->num_paths = get_potential_paths(all, (*all)->end->id);
 	reset_visited(&(*all)->rooms);
 	reset_path_checked(&(*all)->start);
-	set_node_distance(&(*all)->end, 0); //from end assing each node a distance
+	set_node_distance(&(*all)->end, 0);
 	(*all)->start->to_end += (*all)->num_ants;
 	create_ants(all);
-	start_movement(all); // make this. moves ants
+	start_movement(all);
 }

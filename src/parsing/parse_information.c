@@ -176,7 +176,8 @@ void		parse_rooms(char *line, t_room **rooms, int *info_type)
 	int 		start_end;
 
 	start_end = 0;
-	if (count_words(line, ' ', 0, 0) == 3 || ft_strequ(line, "##start") || ft_strequ(line, "##end"))
+	if (count_words(line, ' ', 0, 0) == 3 ||
+		ft_strequ(line, "##start") || ft_strequ(line, "##end"))
 	{
 		if (ft_strequ(line, "##start") || ft_strequ(line, "##end"))
 			new_room = start_end_room(line, rooms);

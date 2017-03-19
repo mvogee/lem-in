@@ -125,9 +125,7 @@ int		main(void)
 	all->rooms = parse_information(&all->num_ants);
 	print_rooms(all->rooms);
 	all->start = find_start(all->rooms);
-	//ft_printf("start id: %s\n", all->start->id);
 	all->end = find_end(all->rooms);
-	//ft_printf("end id: %s\n", all->end->id); // remove this
 	if (all->num_ants <= 0)
 		throw_error(NO_ANTS);
 	all->start->num_ants = all->num_ants;
