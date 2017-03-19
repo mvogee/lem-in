@@ -4,6 +4,7 @@ SRCS = ./src/main.c \
 		./src/freeing.c \
 		./src/output.c \
 		./src/parsing/parse_information.c \
+		./src/parsing/parse_connection.c \
 		./src/path_finding/find_paths.c \
 
 OBJS = $(SRCS:.c=.o)

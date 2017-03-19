@@ -109,7 +109,7 @@ void	print_connections(t_connection *connections);
 void	print_rooms(t_room	*start);
 
 /*
-** parse_information
+** parse_information.c
 */
 int	count_words(char const *s, char c, int flag, int wrdstrt);
 
@@ -122,10 +122,15 @@ t_room			*start_end_room(char *line, t_room **rooms);
 void			add_room(t_room *new_room, t_room **rooms);
 void			parse_rooms(char *line, t_room **rooms, int *info_type);
 
+/*
+** parse_connection.c
+*/
+
 void			check_valid_name(t_room **rooms, char *id);
 t_connection	*make_connection(t_room *room);
 void			add_connection(t_room **rooms, char *home, char *room2);
 void			parse_connection(char *line, t_room **rooms);
+
 
 t_room			*parse_information(int *num_ants);
 
