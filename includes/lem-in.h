@@ -66,16 +66,15 @@ typedef struct		s_room
 	int				is_end;
 	int				num_ants;
 	t_connection	*connections;
-	int				visited; // 1 will reset val 2 is permanant visited
+	int				visited;
 	int				path_checked;
 	int				pathable;
-	int				to_end; // this will be set for fastest path
+	int				to_end;
 }					t_room;
 
 
 typedef struct 		s_all
 {
-	//general info such as start of linked lists number of total ants etc
 	int				num_ants;
 	t_room			*rooms;
 	t_room			*start;
@@ -150,5 +149,14 @@ void	start_movement(t_all **all);
 
 void	find_paths(t_all **all);
 
+
+/*
+** freeing.c
+*/
+
+void	free_visited(t_visited **visited);
+void	free_connections(t_connection **connections);
+void	free_rooms(t_room **rooms);
+void	free_all(t_all **all);
 
 #endif

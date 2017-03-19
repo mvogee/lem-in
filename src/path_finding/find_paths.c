@@ -24,7 +24,6 @@ int		get_potential_paths(t_all **all, char *end_id) // max paths is number of st
 	{
 		(*all)->start->visited = 1;
 		tmp_room = tmp_con->room;
-//		ft_printf("looking down room %s\n", tmp_room->id);
 		if (tmp_room->path_checked == 1)
 		{
 			tmp_con = tmp_con->next;
@@ -34,10 +33,8 @@ int		get_potential_paths(t_all **all, char *end_id) // max paths is number of st
 		{
 			reset_visited(&(*all)->rooms);
 			tmp_room->pathable = 1;
-//			ft_printf("path found for %s\n", tmp_room->id);
 			total_paths++;
 		}
-//		ft_printf("%s pathable?: %d\n",tmp_room->id, tmp_room->pathable);
 		tmp_con = tmp_con->next;
 		tmp_room->path_checked = 1;
 	}
@@ -292,7 +289,10 @@ void	start_movement(t_all **all)
 				break ;
 			find_move(&tmp_ants); // make this
 			if (tmp_ants->room->is_end)
+			{
+				free_visited(&tmp_ants->visited);
 				(*all)->ants = remove_ant(&(*all)->ants, tmp_ants);
+			}
 			else
 				tmp_ants->moved = 1;
 		}

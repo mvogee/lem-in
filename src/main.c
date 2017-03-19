@@ -102,21 +102,19 @@ int		main(void)
 	t_all	*all;
 
 	all = (t_all*)ft_memalloc(sizeof(t_all));
-	all->rooms = parse_information(&all->num_ants); // done
-			print_rooms(all->rooms);
+	all->rooms = parse_information(&all->num_ants);
+	print_rooms(all->rooms); // remove this.
 	all->start = find_start(all->rooms);
-			ft_printf("start id: %s\n", all->start->id);
+	ft_printf("start id: %s\n", all->start->id); // remove this
 	all->end = find_end(all->rooms);
-			ft_printf("end id: %s\n", all->end->id);
+	ft_printf("end id: %s\n", all->end->id); // remove this
 	if (all->num_ants <= 0)
 		throw_error(NO_ANTS);
 	all->start->num_ants = all->num_ants; // adds ants to start
-			ft_printf("start node num ants: %d\n", all->start->num_ants);
+	ft_printf("start node num ants: %d\n", all->start->num_ants); // remove this
 	if (!(check_reachable(&all->start, all->end->id))) // make this
 		throw_error(NO_VALID_PATH);
 	reset_visited(&all->rooms);
-	find_paths(&all); // find paths to start and do algorithms stuff
-//	move_ants(&all); // make this. moves ants and outputs moves
-
-	//free_lists(&all);
+	find_paths(&all);
+	free_all(&all);
 }

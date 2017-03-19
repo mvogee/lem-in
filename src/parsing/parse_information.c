@@ -112,9 +112,12 @@ t_room		*start_end_room(char *line, t_room **rooms)
 		else if (count_char(line, '-'))
 			throw_error(GENERAL);
 	}
-	input = ft_strsplit(line, ' ');
+	input = ft_strsplit(line, ' '); // do input[1] and input[2] need to be freed?
 	check_name_exists(input[0], rooms);
 	new_room = make_room(input[0], ft_atoi(input[1]), ft_atoi(input[2]), start_end);
+	free(input[1]);
+	free(input[2]);
+	free(input);
 	return (new_room);
 }
 
@@ -149,8 +152,11 @@ void		parse_rooms(char *line, t_room **rooms, int *info_type)
 			input = ft_strsplit(line, ' ');
 			check_name_exists(input[0], rooms);
 			new_room = make_room(input[0], ft_atoi(input[1]), ft_atoi(input[2]), start_end);
+			free(input[1]);
+			free(input[2]);
+			free(input);
 		}
-			add_room(new_room, rooms);
+		add_room(new_room, rooms);
 	}
 	else if (count_char(line, '-') == 1)
 		*info_type += 1;
@@ -221,6 +227,8 @@ void		parse_connection(char *line, t_room **rooms)
 	check_valid_name(rooms ,ids[1]);
 	add_connection(rooms, ids[0], ids[1]);
 	add_connection(rooms, ids[1], ids[0]);
+	free(ids[0]);
+	free(ids[1]);
 }
 
 //___________________parse_connection________________ ^^
@@ -229,7 +237,7 @@ t_room		*parse_information(int *num_ants)
 {
 	int		info_type;
 	char	*line;
-	t_room	*rooms; // this is linked list of all rooms
+	t_room	*rooms;
 
 	info_type = NUM_ANTS;
 	line = NULL;
