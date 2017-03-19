@@ -45,6 +45,42 @@ int		ft_isnum(char *str) // extras
 	return (1);
 }
 
+int	count_words(char const *s, char c, int flag, int wrdstrt) // extras
+{
+	int word_count;
+	int index;
+
+	word_count = 0;
+	index = 0;
+	if (!*s)
+		return (0);
+	if (s[0] != c)
+	{
+		word_count++;
+		if (flag == 1 && wrdstrt == 1)
+			return (index);
+	}
+	while (s[index])
+	{
+		if (s[index] == c && s[index + 1] != c && s[index + 1] != '\0')
+			word_count++;
+		index++;
+		if (flag == 1 && word_count == wrdstrt)
+			return (index);
+	}
+	return (word_count);
+}
+
+void		free_inputs(char **input, int start, int len) // extras
+{
+	while (start <= len)
+	{
+		free(input[start]);
+		start++;
+	}
+	free(input);
+}
+
 void		get_num_ants(char *line, int *num_ants, int *info_type)
 {
 	if (!ft_isnum(line))
@@ -100,24 +136,21 @@ t_room		*start_end_room(char *line, t_room **rooms)
 	free(line);
 	while (get_next_line(STDIN_FILENO, &line) > 0)
 	{
-		if (ft_strequ(line, "##start") || ft_strequ(line, "##end"))
-			throw_error(GENERAL);
-		else if (line[0] == '#')
+		if (line[0] == '#')
 		{
 			free(line);
 			continue ;
 		}
-		else if (count_char(line, ' ') == 2)
+		else if (count_words(line, ' ', 0, 0) == 3)
 			break ;
 		else if (count_char(line, '-'))
 			throw_error(GENERAL);
 	}
 	input = ft_strsplit(line, ' ');
 	check_name_exists(input[0], rooms);
-	new_room = make_room(input[0], ft_atoi(input[1]), ft_atoi(input[2]), start_end);
-	free(input[1]);
-	free(input[2]);
-	free(input);
+	new_room = make_room(input[0], ft_atoi(input[1]),
+		ft_atoi(input[2]), start_end);
+	free_inputs(input, 1, 2);
 	return (new_room);
 }
 
@@ -143,7 +176,7 @@ void		parse_rooms(char *line, t_room **rooms, int *info_type)
 	int 		start_end;
 
 	start_end = 0;
-	if (count_char(line, ' ') == 2 || ft_strequ(line, "##start") || ft_strequ(line, "##end"))
+	if (count_words(line, ' ', 0, 0) == 3 || ft_strequ(line, "##start") || ft_strequ(line, "##end"))
 	{
 		if (ft_strequ(line, "##start") || ft_strequ(line, "##end"))
 			new_room = start_end_room(line, rooms);
@@ -151,10 +184,9 @@ void		parse_rooms(char *line, t_room **rooms, int *info_type)
 		{
 			input = ft_strsplit(line, ' ');
 			check_name_exists(input[0], rooms);
-			new_room = make_room(input[0], ft_atoi(input[1]), ft_atoi(input[2]), start_end);
-			free(input[1]);
-			free(input[2]);
-			free(input);
+			new_room = make_room(input[0], ft_atoi(input[1]),
+				ft_atoi(input[2]), start_end);
+			free_inputs(input, 1, 2);
 		}
 		add_room(new_room, rooms);
 	}
@@ -222,8 +254,8 @@ void		parse_connection(char *line, t_room **rooms)
 
 	if (!(*rooms))
 		throw_error(NO_ROOMS);
-	if (count_char(line, '-') != 1 || !line[ft_findchr(line, '-') + 1])
-		throw_error(GENERAL);
+	 if (count_char(line, '-') != 1 || count_words(line, '-', 0, 0) != 2)
+	 	throw_error(GENERAL);
 	ids = ft_strsplit(line, '-');
 	check_valid_name(rooms ,ids[0]);
 	check_valid_name(rooms ,ids[1]);

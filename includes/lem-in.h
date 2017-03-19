@@ -22,7 +22,9 @@ typedef enum 		e_error
 	GENERAL,
 	NO_ANTS,
 	NO_START,
+	DUP_START,
 	NO_END,
+	DUP_END,
 	NO_ROOMS,
 	NO_VALID_PATH,
 	DUPLICATE_NAME
@@ -109,6 +111,7 @@ void	print_rooms(t_room	*start);
 /*
 ** parse_information
 */
+int	count_words(char const *s, char c, int flag, int wrdstrt);
 
 int				count_char(char *str, char c);
 int				ft_isnum(char *str);

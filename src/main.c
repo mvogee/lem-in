@@ -20,8 +20,12 @@ void	throw_error(int reason)
 		write(2, "\e[31mERROR\nNO ANTS\n", 20);
 	else if (reason == NO_END)
 		write(2, "\e[31mERROR\nNO END ROOM FOUND\n", 30);
+	else if (reason == DUP_END)
+		write(2, "\e[31mERROR\nMORE THAN ONE END\n", 30);
 	else if (reason == NO_START)
 		write(2, "\e[31mERROR\nNO START ROOM FOUND\n", 32);
+	else if (reason == DUP_START)
+		write(2, "\e[31mERROR\nMORE THAN ONE START\n", 32);
 	else if (reason == NO_ROOMS)
 		write(2, "\e[31mERROR\nNO ROOMS\n", 21);
 	else if (reason == NO_VALID_PATH)
@@ -34,31 +38,47 @@ void	throw_error(int reason)
 t_room	*find_start(t_room *rooms)
 {
 	t_room	*start;
+	t_room	*tmp;
 
-	start = rooms;
-	while (start)
+	start = NULL;
+	tmp = rooms;
+	while (tmp)
 	{
-		if (start->is_start == 1)
-			return (start);
-		start = start->next;
+		if (tmp->is_start == 1)
+		{
+			if (!start)
+				start = tmp;
+			else
+				throw_error(DUP_START);
+		}
+		tmp = tmp->next;
 	}
-	throw_error(NO_START);
-	return (NULL);
+	if (!start)
+		throw_error(NO_START);
+	return (start);
 }
 
 t_room	*find_end(t_room *rooms)
 {
 	t_room *end;
+	t_room *tmp;
 
-	end = rooms;
-	while (end)
+	end = NULL;
+	tmp = rooms;
+	while (tmp)
 	{
-		if (end->is_end == 1)
-			return (end);
-		end = end->next;
+		if (tmp->is_end == 1)
+		{
+			if (!end)
+				end = tmp;
+			else
+				throw_error(DUP_END);
+		}
+		tmp = tmp->next;
 	}
-	throw_error(NO_END);
-	return (NULL);
+	if (!end)
+		throw_error(NO_END);
+	return (end);
 }
 
 int		check_reachable(t_room **start, char *end_id)
@@ -103,7 +123,7 @@ int		main(void)
 
 	all = (t_all*)ft_memalloc(sizeof(t_all));
 	all->rooms = parse_information(&all->num_ants);
-	print_rooms(all->rooms); // remove this.
+	print_rooms(all->rooms);
 	all->start = find_start(all->rooms);
 	//ft_printf("start id: %s\n", all->start->id);
 	all->end = find_end(all->rooms);
