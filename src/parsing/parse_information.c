@@ -32,7 +32,7 @@ int				count_char(char *str, char c)
 	return (count);
 }
 
-int		ft_isnum(char *str)
+int				ft_isnum(char *str)
 {
 	if (!str)
 		return (0);
@@ -45,10 +45,10 @@ int		ft_isnum(char *str)
 	return (1);
 }
 
-int	count_words(char const *s, char c, int flag, int wrdstrt)
+int				count_words(char const *s, char c, int flag, int wrdstrt)
 {
-	int word_count;
-	int index;
+	int			word_count;
+	int			index;
 
 	word_count = 0;
 	index = 0;
@@ -71,7 +71,7 @@ int	count_words(char const *s, char c, int flag, int wrdstrt)
 	return (word_count);
 }
 
-void		get_num_ants(char *line, int *num_ants, int *info_type)
+void			get_num_ants(char *line, int *num_ants, int *info_type)
 {
 	if (!ft_isnum(line))
 		throw_error(NO_ANTS);
@@ -79,11 +79,11 @@ void		get_num_ants(char *line, int *num_ants, int *info_type)
 	*info_type += 1;
 }
 
-t_room		*parse_information(int *num_ants)
+t_room			*parse_information(int *num_ants)
 {
-	int		info_type;
-	char	*line;
-	t_room	*rooms;
+	int			info_type;
+	char		*line;
+	t_room		*rooms;
 
 	info_type = NUM_ANTS;
 	line = NULL;

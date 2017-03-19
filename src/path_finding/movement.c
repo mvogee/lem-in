@@ -14,7 +14,7 @@
 
 int		not_visited(t_visited *visited_rooms, t_room *room_to_check)
 {
-	t_visited	*tmp_visited;
+	t_visited		*tmp_visited;
 
 	tmp_visited = visited_rooms;
 	while (tmp_visited)
@@ -36,10 +36,10 @@ void	move_ant(t_ants **ant, t_room **moveto)
 
 void	find_move(t_ants **ant)
 {
-	t_room	*cur_room;
-	t_room	*best;
-	t_room	*check;
-	t_connection *tmp_con;
+	t_room			*cur_room;
+	t_room			*best;
+	t_room			*check;
+	t_connection	*tmp_con;
 
 	cur_room = (*ant)->room;
 	best = cur_room;
@@ -65,8 +65,8 @@ void	find_move(t_ants **ant)
 
 t_ants	*get_closest_ant(t_ants **ants)
 {
-	t_ants		*closest;
-	t_ants		*tmp_ants;
+	t_ants			*closest;
+	t_ants			*tmp_ants;
 
 	tmp_ants = *ants;
 	closest = NULL;
@@ -86,7 +86,7 @@ t_ants	*get_closest_ant(t_ants **ants)
 
 void	start_movement(t_all **all)
 {
-	t_ants	*tmp_ants;
+	t_ants			*tmp_ants;
 	ft_printf("\e[32m________Ant Moves__________\n\e[00m");
 	while ((*all)->end->num_ants < (*all)->num_ants && (*all)->ants)
 	{

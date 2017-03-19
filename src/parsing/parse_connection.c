@@ -12,9 +12,9 @@
 
 #include "lem-in.h"
 
-void		check_valid_name(t_room **rooms, char *id)
+void			check_valid_name(t_room **rooms, char *id)
 {
-	t_room		*tmp;
+	t_room			*tmp;
 
 	tmp = *rooms;
 	while (tmp)
@@ -28,7 +28,7 @@ void		check_valid_name(t_room **rooms, char *id)
 
 t_connection	*make_connection(t_room *room)
 {
-	t_connection *new_connection;
+	t_connection	*new_connection;
 
 	new_connection = (t_connection*)ft_memalloc(sizeof(t_connection));
 	new_connection->room = room;
@@ -36,10 +36,10 @@ t_connection	*make_connection(t_room *room)
 	return (new_connection);
 }
 
-void		add_connection(t_room **rooms, char *home, char *room2)
+void			add_connection(t_room **rooms, char *home, char *room2)
 {
-	t_room	*tmp_home;
-	t_room	*tmp2;
+	t_room			*tmp_home;
+	t_room			*tmp2;
 	t_connection	*new_connection;
 	t_connection	**connections;
 	t_connection	*tmp_con;
@@ -63,9 +63,9 @@ void		add_connection(t_room **rooms, char *home, char *room2)
 	}
 }
 
-void		parse_connection(char *line, t_room **rooms)
+void			parse_connection(char *line, t_room **rooms)
 {
-	char	**ids;
+	char			**ids;
 
 	if (!(*rooms))
 		throw_error(NO_ROOMS);

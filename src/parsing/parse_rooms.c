@@ -76,7 +76,7 @@ t_room		*start_end_room(char *line, t_room **rooms)
 
 void		add_room(t_room *new_room, t_room **rooms)
 {
-	t_room	*tmp;
+	t_room		*tmp;
 
 	tmp = *rooms;
 	if (!(*rooms))

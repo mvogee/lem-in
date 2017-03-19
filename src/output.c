@@ -14,7 +14,7 @@
 
 void	print_ants(t_ants *ants)
 {
-	t_ants	*tmp;
+	t_ants			*tmp;
 
 	tmp = ants;
 	ft_printf("_______ants_______\n");
@@ -28,7 +28,7 @@ void	print_ants(t_ants *ants)
 
 void	print_distances(t_all **all)
 {
-	t_room		*tmp;
+	t_room			*tmp;
 
 	tmp = (*all)->rooms;
 	while (tmp)
@@ -40,7 +40,7 @@ void	print_distances(t_all **all)
 
 void	print_connections(t_connection *connections)
 {
-	t_connection *tmp;
+	t_connection	*tmp;
 
 	tmp = connections;
 	ft_printf("connections: ");
@@ -54,7 +54,7 @@ void	print_connections(t_connection *connections)
 
 void	print_rooms(t_room	*rooms)
 {
-	t_room		*tmp;
+	t_room			*tmp;
 
 	tmp = rooms;
 	if (!rooms)

@@ -33,9 +33,9 @@ void	add_visited_room(t_visited **visited, t_room **room)
 
 t_ants	*remove_ant(t_ants **ants, t_ants *done_ant)
 {
-	t_ants	*head;
-	t_ants	*tmp_ants;
-	t_ants	*prev;
+	t_ants		*head;
+	t_ants		*tmp_ants;
+	t_ants		*prev;
 
 	head = *ants;
 	if (head->id == done_ant->id)
@@ -62,7 +62,7 @@ t_ants	*remove_ant(t_ants **ants, t_ants *done_ant)
 
 t_ants	*create_new_ant(int id, t_room **start)
 {
-	t_ants	*new_ant;
+	t_ants		*new_ant;
 
 	new_ant = (t_ants*)ft_memalloc(sizeof(t_ants));
 	if (!new_ant)
@@ -77,7 +77,7 @@ t_ants	*create_new_ant(int id, t_room **start)
 
 void	add_new_ant(t_ants **ants, t_ants *new_ant)
 {
-	t_ants	*tmp;
+	t_ants		*tmp;
 
 	tmp = *ants;
 	while (tmp->next)
@@ -87,8 +87,8 @@ void	add_new_ant(t_ants **ants, t_ants *new_ant)
 
 void	create_ants(t_all **all)
 {
-	int		count;
-	t_ants	*new_ant;
+	int			count;
+	t_ants		*new_ant;
 
 	count = 1;
 	while (count <= (*all)->num_ants)

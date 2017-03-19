@@ -41,7 +41,6 @@ int		get_potential_paths(t_all **all, char *end_id)
 	return (total_paths);
 }
 
-
 void	reset_path_checked(t_room **start)
 {
 	t_connection	*tmp_con;
@@ -94,7 +93,7 @@ int		get_max_start_dist(t_room *start)
 
 void	reset_moved(t_ants **ants)
 {
-	t_ants	*tmp;
+	t_ants			*tmp;
 
 	tmp = *ants;
 	while (tmp)

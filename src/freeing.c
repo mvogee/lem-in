@@ -12,7 +12,7 @@
 
 #include "lem-in.h"
 
-void		free_inputs(char **input, int start, int len)
+void	free_inputs(char **input, int start, int len)
 {
 	while (start <= len)
 	{

@@ -37,8 +37,8 @@ void	throw_error(int reason)
 
 t_room	*find_start(t_room *rooms)
 {
-	t_room	*start;
-	t_room	*tmp;
+	t_room			*start;
+	t_room			*tmp;
 
 	start = NULL;
 	tmp = rooms;
@@ -60,8 +60,8 @@ t_room	*find_start(t_room *rooms)
 
 t_room	*find_end(t_room *rooms)
 {
-	t_room *end;
-	t_room *tmp;
+	t_room			*end;
+	t_room			*tmp;
 
 	end = NULL;
 	tmp = rooms;
@@ -106,7 +106,7 @@ int		check_reachable(t_room **start, char *end_id)
 
 void	reset_visited(t_room **rooms)
 {
-	t_room *tmp;
+	t_room			*tmp;
 
 	tmp = *rooms;
 	while (tmp)
@@ -119,7 +119,7 @@ void	reset_visited(t_room **rooms)
 
 int		main(void)
 {
-	t_all	*all;
+	t_all			*all;
 
 	all = (t_all*)ft_memalloc(sizeof(t_all));
 	all->rooms = parse_information(&all->num_ants);
