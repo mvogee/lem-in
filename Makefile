@@ -8,6 +8,7 @@ SRCS = ./src/main.c \
 		./src/parsing/parse_rooms.c \
 		./src/path_finding/ants.c \
 		./src/path_finding/setting.c \
+		./src/path_finding/movement.c \
 		./src/path_finding/find_paths.c \
 
 OBJS = $(SRCS:.c=.o)
