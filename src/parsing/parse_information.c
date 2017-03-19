@@ -220,7 +220,7 @@ void		parse_connection(char *line, t_room **rooms)
 {
 	char	**ids;
 
-	if (count_char(line, '-') != 1)
+	if (count_char(line, '-') != 1 || !line[ft_findchr(line, '-') + 1])
 		throw_error(GENERAL);
 	ids = ft_strsplit(line, '-');
 	check_valid_name(rooms ,ids[0]);
