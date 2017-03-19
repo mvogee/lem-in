@@ -32,6 +32,8 @@ t_room		*make_room(char *id, int x_coord, int y_coord, int start_end)
 	t_room		*new_room;
 
 	new_room = (t_room*)ft_memalloc(sizeof(t_room));
+	if (!new_room)
+		throw_error(ALLOCATION_FAILURE);
 	new_room->id = id;
 	new_room->x_coord = x_coord;
 	new_room->y_coord = y_coord;

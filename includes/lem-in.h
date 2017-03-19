@@ -6,7 +6,7 @@
 /*   By: mvogee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 16:43:16 by mvogee            #+#    #+#             */
-/*   Updated: 2017/03/09 16:43:16 by mvogee           ###   ########.fr       */
+/*   Updated: 2017/03/18 22:48:17 by mvogee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ typedef enum			e_error
 	DUP_END,
 	NO_ROOMS,
 	NO_VALID_PATH,
-	DUPLICATE_NAME
+	DUPLICATE_NAME,
+	ALLOCATION_FAILURE
 }					t_error;
 
 typedef enum			e_infotype

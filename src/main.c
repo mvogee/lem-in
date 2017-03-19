@@ -32,6 +32,8 @@ void	throw_error(int reason)
 		write(2, "\e[31mERROR\nNO PATH POSSIBLE\n", 29);
 	else if (reason == DUPLICATE_NAME)
 		write(2, "\e[31mERROR\nDUPLICATE NAME\n", 27);
+	else if (reason == ALLOCATION_FAILURE)
+		write(2, "\e[31mERROR\nALLOCATION FAILURE\n", 31);
 	exit(EXIT_FAILURE);
 }
 
@@ -122,6 +124,8 @@ int		main(void)
 	t_all			*all;
 
 	all = (t_all*)ft_memalloc(sizeof(t_all));
+	if (!all)
+		throw_error(ALLOCATION_FAILURE);
 	all->rooms = parse_information(&all->num_ants);
 	all->start = find_start(all->rooms);
 	all->end = find_end(all->rooms);

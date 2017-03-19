@@ -31,6 +31,8 @@ t_connection	*make_connection(t_room *room)
 	t_connection	*new_connection;
 
 	new_connection = (t_connection*)ft_memalloc(sizeof(t_connection));
+	if (!new_connection)
+		throw_error(ALLOCATION_FAILURE);
 	new_connection->room = room;
 	new_connection->next = NULL;
 	return (new_connection);

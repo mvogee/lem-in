@@ -18,6 +18,8 @@ void	add_visited_room(t_visited **visited, t_room **room)
 	t_visited	*new_visited;
 
 	new_visited = (t_visited*)ft_memalloc(sizeof(t_visited));
+	if (!new_visited)
+		throw_error(ALLOCATION_FAILURE);
 	new_visited->next = NULL;
 	new_visited->room = *room;
 	if (!(*visited))
@@ -66,7 +68,7 @@ t_ants	*create_new_ant(int id, t_room **start)
 
 	new_ant = (t_ants*)ft_memalloc(sizeof(t_ants));
 	if (!new_ant)
-		throw_error(GENERAL);
+		throw_error(ALLOCATION_FAILURE);
 	new_ant->id = id;
 	new_ant->next = NULL;
 	new_ant->room = *start;
