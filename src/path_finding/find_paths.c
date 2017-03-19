@@ -278,7 +278,7 @@ t_ants	*remove_ant(t_ants **ants, t_ants *done_ant)
 void	start_movement(t_all **all)
 {
 	t_ants	*tmp_ants;
-
+ft_printf("\e[32m________moving ants__________\n\e[00m");
 	while ((*all)->end->num_ants < (*all)->num_ants && (*all)->ants)
 	{
 		tmp_ants = (*all)->ants; // sets ants back to the head ant node
@@ -297,8 +297,9 @@ void	start_movement(t_all **all)
 				tmp_ants->moved = 1;
 		}
 		reset_moved(&(*all)->ants);
-		ft_printf("%d\n", (*all)->end->num_ants);
+		ft_printf("\n");
 	}
+	ft_printf("\e[32m_____________________________\n");
 }
 
 // __________movement ^^ _______________
@@ -308,11 +309,8 @@ void	find_paths(t_all **all)
 	(*all)->num_paths = get_potential_paths(all, (*all)->end->id); // make this funtion
 	reset_visited(&(*all)->rooms);
 	reset_path_checked(&(*all)->start);
-	ft_printf("num paths: %d\n", (*all)->num_paths);
 	set_node_distance(&(*all)->end, 0); //from end assing each node a distance
 	(*all)->start->to_end += (*all)->num_ants;
-	print_distances(all);
 	create_ants(all);
-	print_ants((*all)->ants);
 	start_movement(all); // make this. moves ants
 }

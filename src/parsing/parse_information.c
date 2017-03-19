@@ -112,7 +112,7 @@ t_room		*start_end_room(char *line, t_room **rooms)
 		else if (count_char(line, '-'))
 			throw_error(GENERAL);
 	}
-	input = ft_strsplit(line, ' '); // do input[1] and input[2] need to be freed?
+	input = ft_strsplit(line, ' ');
 	check_name_exists(input[0], rooms);
 	new_room = make_room(input[0], ft_atoi(input[1]), ft_atoi(input[2]), start_end);
 	free(input[1]);
@@ -220,6 +220,8 @@ void		parse_connection(char *line, t_room **rooms)
 {
 	char	**ids;
 
+	if (!(*rooms))
+		throw_error(NO_ROOMS);
 	if (count_char(line, '-') != 1 || !line[ft_findchr(line, '-') + 1])
 		throw_error(GENERAL);
 	ids = ft_strsplit(line, '-');
@@ -244,11 +246,13 @@ t_room		*parse_information(int *num_ants)
 	rooms = NULL;
 	while (get_next_line(STDIN_FILENO, &line) > 0 && line)
 	{
-		if ((line[0] == '#' && !ft_strequ(line, "##start") && !ft_strequ(line, "##end")) || line[0] == '\0')
+		if ((line[0] == '#' && !ft_strequ(line, "##start")
+			&& !ft_strequ(line, "##end")) || line[0] == '\0')
 		{
-			(line[0] == '\0' ? throw_error(GENERAL) : ft_printf("%s\n", line)); // nessesary?
+			(line[0] == '\0' ? throw_error(GENERAL) : ft_printf("%s\n", line));
 			continue ;
 		}
+		(line[0] == '#' ? ft_printf("%s\n", line) : 0);
 		if (info_type == ROOMS)
 			parse_rooms(line, &rooms, &info_type);
 		if (info_type == CONNECTIONS)
@@ -257,7 +261,5 @@ t_room		*parse_information(int *num_ants)
 			get_num_ants(line, num_ants, &info_type);
 		free(line);
 	}
-	if (!rooms)
-		throw_error(NO_ROOMS);
 	return (rooms);
 }

@@ -17,11 +17,13 @@ void	print_ants(t_ants *ants)
 	t_ants	*tmp;
 
 	tmp = ants;
+	ft_printf("_______ants_______\n");
 	while (tmp)
 	{
 		ft_printf("ant id: %d in room: %s\n", tmp->id, tmp->room->id);
 		tmp = tmp->next;
 	}
+	ft_printf("__________________\n");
 }
 
 void	print_distances(t_all **all)
@@ -57,14 +59,17 @@ void	print_rooms(t_room	*rooms)
 	tmp = rooms;
 	if (!rooms)
 		return ;
+	ft_printf("\e[32m_______rooms_______\n\e[00m");
 	while (tmp)
 	{
+		if (tmp->is_start)
+			ft_printf("\e[32mv start node v\n\e[00m");
+		else if (tmp->is_end)
+			ft_printf("\e[32mv end node v\n\e[00m");
 		ft_printf("id: %s\n", tmp->id);
-		ft_printf("is_start: %d\nis_end: %d\n", tmp->is_start, tmp->is_end);
 		print_connections(tmp->connections);
-		ft_printf("visited: %d\n", tmp->visited);
 		ft_printf("\n");
 		tmp = tmp->next;
 	}
-	ft_printf("\n\n");
+	ft_printf("\e[32m___________________\e[00m\n\n");
 }

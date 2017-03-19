@@ -90,11 +90,12 @@ typedef struct 		s_all
 /*
 ** main.c
 */
+
 void	throw_error(int reason);
 t_room	*find_start(t_room *rooms);
+t_room	*find_end(t_room *rooms);
 int		check_reachable(t_room **start, char *end_id);
 void	reset_visited(t_room **rooms);
-t_room	*find_end(t_room *rooms);
 
 /*
 ** output.c

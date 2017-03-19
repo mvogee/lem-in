@@ -15,19 +15,19 @@
 void	throw_error(int reason)
 {
 	if (reason == GENERAL)
-		write(2 ,"ERROR\n", 7);
+		write(2 ,"\e[31mERROR\n", 12);
 	else if (reason == NO_ANTS)
-		write(2, "ERROR\nNO ANTS\n", 15);
+		write(2, "\e[31mERROR\nNO ANTS\n", 20);
 	else if (reason == NO_END)
-		write(2, "ERROR\nNO END ROOM FOUND\n", 25);
+		write(2, "\e[31mERROR\nNO END ROOM FOUND\n", 30);
 	else if (reason == NO_START)
-		write(2, "ERROR\nNO START ROOM FOUND\n", 27);
+		write(2, "\e[31mERROR\nNO START ROOM FOUND\n", 32);
 	else if (reason == NO_ROOMS)
-		write(2, "ERROR\nNO ROOMS\n", 16);
+		write(2, "\e[31mERROR\nNO ROOMS\n", 21);
 	else if (reason == NO_VALID_PATH)
-		write(2, "ERROR\nNO PATH POSSIBLE\n", 24);
+		write(2, "\e[31mERROR\nNO PATH POSSIBLE\n", 29);
 	else if (reason == DUPLICATE_NAME)
-		write(2, "ERROR\nDUPLICATE NAME\n", 22);
+		write(2, "\e[31mERROR\nDUPLICATE NAME\n", 27);
 	exit(EXIT_FAILURE);
 }
 
@@ -105,14 +105,14 @@ int		main(void)
 	all->rooms = parse_information(&all->num_ants);
 	print_rooms(all->rooms); // remove this.
 	all->start = find_start(all->rooms);
-	ft_printf("start id: %s\n", all->start->id); // remove this
+	//ft_printf("start id: %s\n", all->start->id);
 	all->end = find_end(all->rooms);
-	ft_printf("end id: %s\n", all->end->id); // remove this
+	//ft_printf("end id: %s\n", all->end->id); // remove this
 	if (all->num_ants <= 0)
 		throw_error(NO_ANTS);
-	all->start->num_ants = all->num_ants; // adds ants to start
-	ft_printf("start node num ants: %d\n", all->start->num_ants); // remove this
-	if (!(check_reachable(&all->start, all->end->id))) // make this
+	all->start->num_ants = all->num_ants;
+	ft_printf("number of ants: \e[31m%d\n\n\e[00m", all->start->num_ants);
+	if (!(check_reachable(&all->start, all->end->id)))
 		throw_error(NO_VALID_PATH);
 	reset_visited(&all->rooms);
 	find_paths(&all);
