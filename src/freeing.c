@@ -12,6 +12,16 @@
 
 #include "lem-in.h"
 
+void		free_inputs(char **input, int start, int len)
+{
+	while (start <= len)
+	{
+		free(input[start]);
+		start++;
+	}
+	free(input);
+}
+
 void	free_visited(t_visited **visited)
 {
 	t_visited		*tmp;
