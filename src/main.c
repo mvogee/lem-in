@@ -123,16 +123,16 @@ int		main(void)
 
 	all = (t_all*)ft_memalloc(sizeof(t_all));
 	all->rooms = parse_information(&all->num_ants);
-	print_rooms(all->rooms);
 	all->start = find_start(all->rooms);
 	all->end = find_end(all->rooms);
 	if (all->num_ants <= 0)
 		throw_error(NO_ANTS);
 	all->start->num_ants = all->num_ants;
-	ft_printf("number of ants: \e[31m%d\n\n\e[00m", all->start->num_ants);
 	if (!(check_reachable(&all->start, all->end->id)))
 		throw_error(NO_VALID_PATH);
 	reset_visited(&all->rooms);
+	print_rooms(all->rooms);
+	ft_printf("number of ants: \e[31m%d\n\n\e[00m", all->start->num_ants);
 	find_paths(&all);
 	free_all(&all);
 }
