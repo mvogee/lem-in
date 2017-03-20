@@ -87,6 +87,7 @@ t_ants	*get_closest_ant(t_ants **ants)
 void	start_movement(t_all **all)
 {
 	t_ants			*tmp_ants;
+
 	ft_printf("\e[32m________Ant Moves__________\n\e[00m");
 	while ((*all)->end->num_ants < (*all)->num_ants && (*all)->ants)
 	{

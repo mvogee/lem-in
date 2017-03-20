@@ -52,7 +52,7 @@ t_room		*start_end_room(char *line, t_room **rooms)
 {
 	char		**input;
 	t_room		*new_room;
-	int 		start_end;
+	int			start_end;
 
 	start_end = (ft_strequ(line, "##start") ? 1 : -1);
 	free(line);
@@ -68,7 +68,8 @@ t_room		*start_end_room(char *line, t_room **rooms)
 		else if (count_char(line, '-'))
 			throw_error(GENERAL);
 	}
-	input = ft_strsplit(line, ' ');
+	if (!(input = ft_strsplit(line, ' ')))
+		throw_error(ALLOCATION_FAILURE);
 	check_name_exists(input[0], rooms);
 	new_room = make_room(input[0], ft_atoi(input[1]),
 		ft_atoi(input[2]), start_end);
@@ -95,7 +96,7 @@ void		parse_rooms(char *line, t_room **rooms, int *info_type)
 {
 	char		**input;
 	t_room		*new_room;
-	int 		start_end;
+	int			start_end;
 
 	start_end = 0;
 	if (count_words(line, ' ', 0, 0) == 3 ||
@@ -105,7 +106,8 @@ void		parse_rooms(char *line, t_room **rooms, int *info_type)
 			new_room = start_end_room(line, rooms);
 		else
 		{
-			input = ft_strsplit(line, ' ');
+			if (!(input = ft_strsplit(line, ' ')))
+				throw_error(ALLOCATION_FAILURE);
 			check_name_exists(input[0], rooms);
 			new_room = make_room(input[0], ft_atoi(input[1]),
 				ft_atoi(input[2]), start_end);

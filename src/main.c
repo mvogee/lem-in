@@ -104,7 +104,7 @@ int		check_reachable(t_room **start, char *end_id)
 		}
 	}
 	return (0);
-}	
+}
 
 void	reset_visited(t_room **rooms)
 {

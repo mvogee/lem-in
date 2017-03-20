@@ -71,9 +71,11 @@ void			parse_connection(char *line, t_room **rooms)
 
 	if (!(*rooms))
 		throw_error(NO_ROOMS);
-	 if (count_char(line, '-') != 1 || count_words(line, '-', 0, 0) != 2)
-	 	throw_error(GENERAL);
+	if (count_char(line, '-') != 1 || count_words(line, '-', 0, 0) != 2)
+		throw_error(GENERAL);
 	ids = ft_strsplit(line, '-');
+	if (!ids)
+		throw_error(ALLOCATION_FAILURE);
 	check_valid_name(rooms ,ids[0]);
 	check_valid_name(rooms ,ids[1]);
 	add_connection(rooms, ids[0], ids[1]);
