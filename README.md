@@ -21,6 +21,11 @@ Graph Path Finding Algorithm.
     </ul><br>
    <li>Use cntrl+D to stop reading from stdin</li>
    <li>It is best to use a text file containing the graph definition<br></li></ul>
+<b>Output is in the form:</b>
+<ul>
+Lx-y Lz-w Lr-o ...<br>
+Where x, z, and r, represent the ant number<br>
+and y, w, and o represent the room name that they are moving to.</ul>
 
 <b>Example graph definition</b>
 <ul>
@@ -51,9 +56,4 @@ Graph Path Finding Algorithm.
 7-4<br>
 6-5<br>
 </ul>
-<b>Output is in the form:</b>
-<ul>
-Lx-y Lz-w Lr-o ...<br>
-Where x, z, and r, represent the ant number<br>
-and y, w, and o represent the room name that they are moving to.</ul>
 
