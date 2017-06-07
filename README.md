@@ -20,7 +20,8 @@ Graph path finding program.
     ##end (defines the end node as the next node input)<br>
     </ul><br>
    <li>Use cntrl+D to stop reading from stdin</li>
-   <li>It is best to use a text file containing the graph definition<br></li></ul>
+   <li>It is best to use a text file containing the graph definition. ./lem-in &lt; graph.txt<br></li>
+   </ul>
 <b>Output is in the form:</b>
 <ul>
 Lx-y Lz-w Lr-o ...<br>
