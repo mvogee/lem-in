@@ -1,5 +1,5 @@
 # lem-in
-Graph Path Finding Algorithm.
+Graph path finding program.
 
 <b>Getting Started</b><br>
 <ul>
